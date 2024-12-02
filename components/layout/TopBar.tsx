@@ -3,7 +3,7 @@
 import { UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
 
@@ -12,6 +12,23 @@ import { navLinks } from '@/lib/constants';
 const TopBar = () => {
 	const [dropdownMenu, setDropdownMenu] = useState(false);
 	const pathname = usePathname();
+
+	const divRef = useRef(null);
+
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (
+				divRef.current &&
+				!(divRef.current as HTMLElement).contains(event.target as Node)
+			) {
+				setDropdownMenu(false);
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<div className='sticky top-0 z-20 w-full flex justify-between items-center px-8 py-4 bg-blue-2 shadow-xl lg:hidden'>
@@ -34,7 +51,9 @@ const TopBar = () => {
 					onClick={() => setDropdownMenu(!dropdownMenu)}
 				/>
 				{dropdownMenu && (
-					<div className='absolute top-10 right-6 flex flex-col gap-8 p-5 bg-white shadow-xl rounded-lg'>
+					<div
+						ref={divRef}
+						className='absolute top-10 right-6 flex flex-col gap-8 p-5 bg-white shadow-xl rounded-lg'>
 						{navLinks.map((link) => (
 							<Link
 								href={link.url}
