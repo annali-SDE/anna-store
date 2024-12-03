@@ -1,13 +1,10 @@
-// const CollectionForm = () => {
-// 	return <div>CollectionForm</div>;
-// };
-// export default CollectionForm;
-
 'use client';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+
 import { Separator } from '../ui/separator';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '../ui/textarea';
-// import ImageUpload from '../custom-ui/ImageUpload';
+import ImageUpload from '../ImageUpload';
 
 const formSchema = z.object({
 	title: z.string().min(1).max(20),
@@ -30,6 +27,8 @@ const formSchema = z.object({
 });
 
 const CollectionForm = () => {
+	const router = useRouter();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -46,7 +45,7 @@ const CollectionForm = () => {
 	return (
 		<div className='p-10'>
 			<p className='text-heading2-bold'>Create Collection</p>
-			<Separator className='bg-grey-1 mt-4 mb-7' />
+			<Separator className='bg-gray-1 mt-4 mb-7' />
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 					<FormField
@@ -77,9 +76,9 @@ const CollectionForm = () => {
 							</FormItem>
 						)}
 					/>
-					{/* <FormField
+					<FormField
 						control={form.control}
-						name='description'
+						name='image'
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Image</FormLabel>
@@ -94,8 +93,18 @@ const CollectionForm = () => {
 								<FormMessage />
 							</FormItem>
 						)}
-					/> */}
-					<Button type='submit'>Submit</Button>
+					/>
+					<div className='flex gap-10'>
+						<Button type='submit' className='bg-blue-1 text-white'>
+							Submit
+						</Button>
+						<Button
+							type='button'
+							onClick={() => router.push('/collections')}
+							className='bg-blue-1 text-white'>
+							Discard
+						</Button>
+					</div>
 				</form>
 			</Form>
 		</div>

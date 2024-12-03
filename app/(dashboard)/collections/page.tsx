@@ -21,7 +21,7 @@ const Collections = () => {
 					Create Collection
 				</Button>
 			</div>
-			<Separator className='bg-grey-1 my-4' />
+			<Separator className='bg-gray-1 my-4' />
 		</div>
 	);
 };

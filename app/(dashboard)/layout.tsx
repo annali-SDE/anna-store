@@ -21,7 +21,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en' suppressHydrationWarning>
 				<body className={inter.className}>
-					<div className='flex max-lg:flex-col text-grey-1'>
+					<div className='flex max-lg:flex-col text-gray-1'>
 						<LeftSideBar />
 						<TopBar />
 						<div className='flex-1'>{children}</div>
